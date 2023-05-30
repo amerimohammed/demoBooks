@@ -33,4 +33,9 @@ public class BookController {
         return "redirect:/";
     }
 
+    @GetMapping({"/", "/book/all"})
+    private String showBookOverview(Model model){
+        model.addAttribute("allBooks", bookRepository.findAll());
+        return "bookOverview";
+    }
 }
