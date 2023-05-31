@@ -21,10 +21,11 @@ public class BookController {
     private final BookRepository bookRepository;
 
     @GetMapping("/book/new")
-    private String showBookForm(Model model){
+    private String showBookForm(Model model) {
         model.addAttribute("book", new Book());
         return "bookForm";
     }
+
     @PostMapping("/book/new")
     private String saveOrUpdateBook(@ModelAttribute("book") Book bookToBeSaved, BindingResult result) {
         if (!result.hasErrors()) {
@@ -34,7 +35,7 @@ public class BookController {
     }
 
     @GetMapping({"/", "/book/all"})
-    private String showBookOverview(Model model){
+    private String showBookOverview(Model model) {
         model.addAttribute("allBooks", bookRepository.findAll());
         return "bookOverview";
     }
