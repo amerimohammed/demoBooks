@@ -60,4 +60,14 @@ public class BookController {
         model.addAttribute("allBooks", bookRepository.findAll());
         return "bookOverview";
     }
+
+    @GetMapping("/book/details/{title}")
+    private String showBookDetails(@PathVariable("title") String title, Model model){
+        Optional<Book> optionalBook  = bookRepository.findByTitle(title);
+        if(optionalBook.isPresent()){
+            model.addAttribute("bookToShowDetailsFor",  optionalBook.get());
+            return "bookDetails";
+        }
+        return "redirect:/book/all";
+    }
 }

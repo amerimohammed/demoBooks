@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Overview of all books</h1>
+<a href="/book/new">Add new book</a>
 <table>
     <tr>
         <th>Title</th>
@@ -14,7 +15,7 @@
         <th>Add copy</th>
     </tr>
     <tr th:each="book : ${allBooks}">
-        <td th:text="${book.title}"></td>
+        <td><a th:href="@{/book/details/{title}(title=${book.title})}" th:text="${book.title}"></a></td>
         <td th:text="${book.author}"></td>
         <td><a th:href="@{/book/edit/{bookId}(bookId=${book.bookId})}">Edit</a></td>
         <td><a th:href="@{/book/delete/{bookId}(bookId=${book.bookId})}">Delete</a></td>
