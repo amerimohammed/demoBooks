@@ -46,6 +46,15 @@ public class BookController {
         return "redirect:/";
     }
 
+    @GetMapping("/book/delete/{bookId}")
+    private String deleteBook(@PathVariable("bookId") Long bookId){
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if(optionalBook.isPresent()){
+            bookRepository.delete(optionalBook.get());
+        }
+        return "redirect:/book/all";
+    }
+
     @GetMapping({"/", "/book/all"})
     private String showBookOverview(Model model) {
         model.addAttribute("allBooks", bookRepository.findAll());
