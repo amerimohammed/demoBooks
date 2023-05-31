@@ -9,7 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Optional;
 
 /**
  * @author Mohammed Alameri on 30/05/2023.
@@ -21,11 +24,20 @@ public class BookController {
     private final BookRepository bookRepository;
 
     @GetMapping("/book/new")
-    private String showBookForm(Model model) {
+    private String showNewBookForm(Model model) {
         model.addAttribute("book", new Book());
         return "bookForm";
     }
 
+    @GetMapping("/book/edit/{bookId}")
+    private String showEditBookForm (@PathVariable("bookId") Long bookId, Model model){
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if(optionalBook.isPresent()){
+            model.addAttribute("book", optionalBook.get());
+            return "bookForm";
+        }
+        return "redirect:/book/all";
+    }
     @PostMapping("/book/new")
     private String saveOrUpdateBook(@ModelAttribute("book") Book bookToBeSaved, BindingResult result) {
         if (!result.hasErrors()) {
