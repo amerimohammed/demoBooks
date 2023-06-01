@@ -3,6 +3,7 @@ package nl.miwgroningen.cohort11.ameri.demoBooks.controller;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import nl.miwgroningen.cohort11.ameri.demoBooks.model.Book;
+import nl.miwgroningen.cohort11.ameri.demoBooks.repository.AuthorRepository;
 import nl.miwgroningen.cohort11.ameri.demoBooks.repository.BookRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookController {
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @GetMapping("/book/new")
     private String showNewBookForm(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("allAuthors", authorRepository.findAll());
         return "bookForm";
     }
 
@@ -34,6 +37,7 @@ public class BookController {
         Optional<Book> optionalBook = bookRepository.findById(bookId);
         if(optionalBook.isPresent()){
             model.addAttribute("book", optionalBook.get());
+            model.addAttribute("allAuthors", authorRepository.findAll());
             return "bookForm";
         }
         return "redirect:/book/all";
