@@ -10,10 +10,12 @@ import javax.persistence.*;
  * @project physical manifestation of a book
  */
 @Entity
-@Setter @Getter
+@Setter
+@Getter
 public class Copy {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long copyId;
     private Boolean available = true;
 

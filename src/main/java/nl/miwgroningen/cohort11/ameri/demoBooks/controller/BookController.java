@@ -33,15 +33,16 @@ public class BookController {
     }
 
     @GetMapping("/book/edit/{bookId}")
-    private String showEditBookForm (@PathVariable("bookId") Long bookId, Model model){
+    private String showEditBookForm(@PathVariable("bookId") Long bookId, Model model) {
         Optional<Book> optionalBook = bookRepository.findById(bookId);
-        if(optionalBook.isPresent()){
+        if (optionalBook.isPresent()) {
             model.addAttribute("book", optionalBook.get());
             model.addAttribute("allAuthors", authorRepository.findAll());
             return "bookForm";
         }
         return "redirect:/book/all";
     }
+
     @PostMapping("/book/new")
     private String saveOrUpdateBook(@ModelAttribute("book") Book bookToBeSaved, BindingResult result) {
         if (!result.hasErrors()) {
@@ -51,9 +52,9 @@ public class BookController {
     }
 
     @GetMapping("/book/delete/{bookId}")
-    private String deleteBook(@PathVariable("bookId") Long bookId){
+    private String deleteBook(@PathVariable("bookId") Long bookId) {
         Optional<Book> optionalBook = bookRepository.findById(bookId);
-        if(optionalBook.isPresent()){
+        if (optionalBook.isPresent()) {
             bookRepository.delete(optionalBook.get());
         }
         return "redirect:/book/all";
@@ -66,10 +67,10 @@ public class BookController {
     }
 
     @GetMapping("/book/details/{title}")
-    private String showBookDetails(@PathVariable("title") String title, Model model){
-        Optional<Book> optionalBook  = bookRepository.findByTitle(title);
-        if(optionalBook.isPresent()){
-            model.addAttribute("bookToShowDetailsFor",  optionalBook.get());
+    private String showBookDetails(@PathVariable("title") String title, Model model) {
+        Optional<Book> optionalBook = bookRepository.findByTitle(title);
+        if (optionalBook.isPresent()) {
+            model.addAttribute("bookToShowDetailsFor", optionalBook.get());
             return "bookDetails";
         }
         return "redirect:/book/all";
